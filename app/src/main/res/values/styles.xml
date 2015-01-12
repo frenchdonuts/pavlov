@@ -1,0 +1,14 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- customize the color palette -->
+        <item name="colorPrimary">@color/fallback</item>
+        <item name="colorPrimaryDark">@color/black_text</item>
+        <item name="colorAccent">@color/black_text</item>
+        <item name="android:textColorPrimary">@color/black_text</item>
+        <item name="android:textColorSecondary">@color/black_secondary_text</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+</resources>
