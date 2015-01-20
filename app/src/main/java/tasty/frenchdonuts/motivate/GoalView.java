@@ -2,7 +2,6 @@ package tasty.frenchdonuts.motivate;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -17,6 +16,7 @@ import butterknife.InjectView;
  */
 public class GoalView extends RelativeLayout {
 
+	private Goal goal;
 	@InjectView(R.id.task_tvTitle)
 	TextView tvTitle;
 	@InjectView(R.id.task_tvDueIn)
@@ -40,50 +40,54 @@ public class GoalView extends RelativeLayout {
 		ButterKnife.inject(this);
 	}
 
-	public void bindTo(Task task) {
-		cvLevel.setColor(task.getPriority());
-		tvTitle.setText(task.getTitle());
-		tvDueIn.setText(getCountdown(task.getEndDate()));
+	public void bindTo(Goal goal) {
+		this.goal = goal;
 	}
 
-	public String getCountdown(long endDate) {
-		// Convert countdown in millis to yrs, months, days
-		long currentTime = System.currentTimeMillis();
-		long countdown = endDate - currentTime;
+	public void render() {
+		if (goal != null) {
+			tvTitle.setText(goal.getTitle());
 
-		if(countdown < 0)
-			// User failed to complete task
-			return "You failed.";
-
-		// Use recursive procedure to calculate string
-		return millisToDateString(countdown);
+			long countDown = goal.getEndDate() - System.currentTimeMillis();
+			cvLevel.setPriority(goal.getPriority());
+			tvDueIn.setText(millisToDateString(countDown));
+		}
 	}
 
 	public static String millisToDateString(long millis) {
+		if (millis < 0) return "You failed.";
+
 		long remainder = millis;
 		String result = "";
 
-		int yrs = ((int) ((long)remainder / MainActivity.millisInYear));
+		int yrs = (int) (remainder / MainActivity.millisInYear);
 		if ( yrs > 0) {
 			remainder = remainder - yrs * MainActivity.millisInYear;
 			result = result + yrs + pluralize("yr", yrs) + "  ";
 		}
 
-		int mos = ((int) ((long)remainder / MainActivity.millisInMonth));
+		int mos = (int) (remainder / MainActivity.millisInMonth);
 		if (mos > 0) {
 			remainder = remainder - mos * MainActivity.millisInMonth;
 			result = result + mos + pluralize("mo", mos) + "  ";
 		}
 
-		int days = ((int) ((long)remainder / MainActivity.millisInDay));
+		int days = (int) (remainder / MainActivity.millisInDay);
 		if (days > 0) {
-			remainder = remainder - days * MainActivity.millisInDay;
+			//remainder = remainder - days * MainActivity.millisInDay;
 			result = result + days + pluralize("d", days);
 		}
 
 
 		return result;
 	}
+/*
+	public static int millisToPriority(long millisToEnd, long millisInLv) {
+		if (millisToEnd < 0) return 8;
+
+		int decs = (int) (millisToEnd / millisInLv);
+		return 8 - decs - 1;
+	}*/
 
 	private static String pluralize(String singular, int amount) {
 		if (amount == 1)

@@ -58,7 +58,7 @@ public class CircleView extends View {
 		canvas.drawText(Integer.toString(level), size/2, size/2 + textSize/3, paint);
 	}
 
-	public void setColor(int priority) {
+	public void setPriority(int priority) {
 		this.level = priority;
 		switch (priority) {
 			case 7:

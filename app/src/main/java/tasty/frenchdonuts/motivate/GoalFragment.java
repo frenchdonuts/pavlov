@@ -4,29 +4,22 @@ import android.app.ListFragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
 
 /**
  * Created by frenchdonuts on 1/6/15.
  */
-public class TaskFragment extends ListFragment {
+public class GoalFragment extends ListFragment {
 	private TaskAdapter taskAdapter;
 	private LayoutInflater inflater;
 
@@ -46,17 +39,45 @@ public class TaskFragment extends ListFragment {
 		this.getListView().setVerticalScrollBarEnabled(false);
 		this.getListView().addHeaderView(createHeader());
 
-		RealmResults<Task> results = Realm.getInstance(getActivity())
-				.allObjects(Task.class);
+		Realm realm = Realm.getInstance(getActivity());
+		RealmResults<Goal> results = realm.allObjects(Goal.class);
+		for(Goal g : results) g.setPriority(Goal.calcNewPriority(g));		// update priorities every time we display goals
+
+		// fn(priority, endDate) -> someNumber s.t.
+		// if priority1 > priority2, then fn(priority1, _) > fn(priority2, _)
+		// if priority1 = priority2, and endDate1 < endDate2, then fn(priority1, endDate1) > fn(priority2, endDate2)
+		// Another thing we know is that priority will be between 1 and 7 and endDate will always be a large positive number
+		// fn(x, y) = (3^x)(2^y)
+		// fn(x, y) = x^y; (x+1)^y vs x^(y+1)
+		// fn(x, y) =
+
 		results.sort("priority", false);
+
 		taskAdapter = new TaskAdapter(getActivity(), results, true);
 		this.setListAdapter(taskAdapter);
+
+		SwipeDismissListViewTouchListener touchListener =
+		        new SwipeDismissListViewTouchListener(
+		                this.getListView(),
+		                new SwipeDismissListViewTouchListener.DismissCallbacks() {
+							public boolean canDismiss(int position) { return true; }
+		                    public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+								realm.beginTransaction();
+		                        for (int position : reverseSortedPositions) {
+									taskAdapter.getItem(position-1).removeFromRealm();
+		                        }
+								realm.commitTransaction();
+		                        //taskAdapter.notifyDataSetChanged();
+		                    }
+		                });
+		this.getListView().setOnTouchListener(touchListener);
+		this.getListView().setOnScrollListener(touchListener.makeScrollListener());
 	}
 
-	public class TaskAdapter extends RealmBindableAdapter<Task> {
+	public class TaskAdapter extends RealmBindableAdapter<Goal> {
 
 		public TaskAdapter(Context context,
-						 RealmResults<Task> realmResults,
+						 RealmResults<Goal> realmResults,
 						 boolean automaticUpdate) {
 			super(context, realmResults, automaticUpdate);
 			inflater = LayoutInflater.from(context);
@@ -66,12 +87,12 @@ public class TaskFragment extends ListFragment {
 			return inflater.inflate(R.layout.goal_view, container, false);
 		}
 
-		public void bindView(Task task, int position, View view) {
+		public void bindView(Goal goal, int position, View view) {
 			GoalView gv = (GoalView) view;
-			gv.bindTo(task);
+			gv.bindTo(goal);
 
-			int cur = task.getPriority();
-			// The very first view will of course be first in its section
+			int cur = goal.getPriority();
+			// The very first view is also first in its section
 			int bef = position == 0 ? (cur + 1) : getItem(position - 1).getPriority();
 			// The very last view should not have a divider
 			int aft = position == (getCount() - 1) ? cur : getItem(position + 1).getPriority();
@@ -81,21 +102,11 @@ public class TaskFragment extends ListFragment {
 			gv.enableCircleView(cur < bef);
 			// If current view is last in its section (cur > aft), enable divider; else disable
 			gv.enableDivider(cur > aft);
+			gv.render();
 		}
 
-		public RealmResults<Task> getRealmResults() {
+		public RealmResults<Goal> getRealmResults() {
 			return realmResults;
-		}
-	}
-
-	public void temp() {
-		// [7,7,7,6,5,4,4,3,2,1] -> [3,4,5,7,8,9] OR [2,3,4,6,7,8]
-		int[] arr = { 7,7,7,6,5,4,4,3,2,1 };
-		List<Integer> ans = new ArrayList<Integer>();
-		for (int i = 0; i < arr.length; i++) {
-			if (arr[i] != arr[i+1]) {
-				ans.add(i+1);
-			}
 		}
 	}
 }
