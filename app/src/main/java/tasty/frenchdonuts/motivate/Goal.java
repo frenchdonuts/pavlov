@@ -21,8 +21,6 @@ public class Goal extends RealmObject {
 
 	private long period;
 
-	public String sortedBy;
-
 	public static void addGoalToRealm(Realm realm, String title, long endDate, int priority, long millisInOneLv) {
 		realm.beginTransaction();
 

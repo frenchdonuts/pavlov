@@ -43,15 +43,8 @@ public class GoalFragment extends ListFragment {
 		RealmResults<Goal> results = realm.allObjects(Goal.class);
 		for(Goal g : results) g.setPriority(Goal.calcNewPriority(g));		// update priorities every time we display goals
 
-		// fn(priority, endDate) -> someNumber s.t.
-		// if priority1 > priority2, then fn(priority1, _) > fn(priority2, _)
-		// if priority1 = priority2, and endDate1 < endDate2, then fn(priority1, endDate1) > fn(priority2, endDate2)
-		// Another thing we know is that priority will be between 1 and 7 and endDate will always be a large positive number
-		// fn(x, y) = (3^x)(2^y)
-		// fn(x, y) = x^y; (x+1)^y vs x^(y+1)
-		// fn(x, y) =
-
-		results.sort("priority", false);
+		results.sort("priority", false, "endDate", true);
+		//results.sort("priority", false);
 
 		taskAdapter = new TaskAdapter(getActivity(), results, true);
 		this.setListAdapter(taskAdapter);
@@ -67,7 +60,6 @@ public class GoalFragment extends ListFragment {
 									taskAdapter.getItem(position-1).removeFromRealm();
 		                        }
 								realm.commitTransaction();
-		                        //taskAdapter.notifyDataSetChanged();
 		                    }
 		                });
 		this.getListView().setOnTouchListener(touchListener);

@@ -54,6 +54,8 @@ public class MainActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_main);
 		ButterKnife.inject(this);
 
+		// TODO: Can abstract this code
+		// changeFocus(curEt); this will
 		etTitle.setOnEditorActionListener((view, actionId, event) -> {
 			boolean handled = false;
 			if(actionId == EditorInfo.IME_ACTION_NEXT) {
@@ -111,7 +113,7 @@ public class MainActivity extends ActionBarActivity {
 					(endDate() - System.currentTimeMillis()) / (8 - lv)
 			);
 
-			// Clear all EditTexts
+			// TODO: Clear all EditTexts
 			findViewById(R.id.mainLayout).requestFocus();
 		});
 	}
