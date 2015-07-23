@@ -1,69 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <data>
-       <import type="android.view.View"/>
-       <variable name="goalView" type="tasty.frenchdonuts.motivate.GoalView"/>
-   </data>
-    <tasty.frenchdonuts.motivate.GoalView
-        android:layout_width="match_parent"
-        android:layout_height="72dp">
+<tasty.frenchdonuts.motivate.GoalView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="72dp">
 
-        <tasty.frenchdonuts.motivate.CircleView
-            android:id="@+id/task_cvLevel"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="16dp"
-            android:layout_centerVertical="true"
-            android:visibility="@{goalView.enableCircleView ? View.VISIBLE : View.INVISIBLE}"
-            />
-        <LinearLayout
-            android:id="@+id/llCenter"
+    <tasty.frenchdonuts.motivate.CircleView
+        android:id="@+id/task_cvLevel"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="16dp"
+        android:layout_centerVertical="true"
+        android:visibility="visible"
+        />
+    <LinearLayout
+        android:id="@+id/llCenter"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_centerVertical="true"
+        />
+    <TextView
+        android:id="@+id/task_tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/task_cvLevel"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_above="@id/llCenter"
+        android:textSize="18sp"
+        android:textColor="@color/black_text"
+        android:text="Get ripped"
+        />
+    <!-- fontPath="fonts/Roboto-Black.ttf" -->
+    <TextView
+        android:id="@+id/task_tvDueIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/task_cvLevel"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_below="@id/llCenter"
+        android:layout_centerVertical="true"
+        android:fontFamily="sans-serif"
+        android:textSize="14sp"
+        android:textColor="@color/black_secondary_text"
+        android:text="Due in: 12 days"
+        />
+    <LinearLayout
+        android:id="@+id/divider"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:visibility="visible">
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            android:layout_centerVertical="true"
+            android:layout_height="1dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="88dp"
+            android:background="@drawable/actionbar_shadow"
             />
-        <TextView
-            android:id="@+id/task_tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/task_cvLevel"
-            android:layout_marginLeft="32dp"
-            android:layout_marginStart="32dp"
-            android:layout_above="@id/llCenter"
-            android:textSize="18sp"
-            android:textColor="@color/black_text"
-            android:text="Get ripped"
-            />
-        <!-- fontPath="fonts/Roboto-Black.ttf" -->
-        <TextView
-            android:id="@+id/task_tvDueIn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/task_cvLevel"
-            android:layout_marginLeft="32dp"
-            android:layout_marginStart="32dp"
-            android:layout_below="@id/llCenter"
-            android:layout_centerVertical="true"
-            android:fontFamily="sans-serif"
-            android:textSize="14sp"
-            android:textColor="@color/black_secondary_text"
-            android:text="Due in: 12 days"
-            />
-        <LinearLayout
-            android:id="@+id/divider"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="16dp"
-            android:visibility="@{goalView.enableDivider ? View.VISIBLE : View.Gone}">
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="88dp"
-                android:background="@drawable/actionbar_shadow"
-                />
-        </LinearLayout>
-    </tasty.frenchdonuts.motivate.GoalView>
-</layout>
+    </LinearLayout>
+</tasty.frenchdonuts.motivate.GoalView>
