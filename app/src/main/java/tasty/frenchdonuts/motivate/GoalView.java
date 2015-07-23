@@ -3,6 +3,7 @@ package tasty.frenchdonuts.motivate;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -16,7 +17,11 @@ import butterknife.InjectView;
  */
 public class GoalView extends RelativeLayout {
 
-	private Goal goal;
+	private GoalVM goalVM;
+
+	public boolean enableCircleView;
+	public boolean enableDivider;
+
 	@InjectView(R.id.task_tvTitle)
 	TextView tvTitle;
 	@InjectView(R.id.task_tvDueIn)
@@ -26,8 +31,10 @@ public class GoalView extends RelativeLayout {
 	@InjectView(R.id.divider)
 	LinearLayout divider;
 
+	// initialize w/ GoalVM
 	public GoalView(Context context) {
 		super(context);
+		LayoutInflater.from(context).inflate(R.layout.goal_view, this);
 		this.setGravity(Gravity.CENTER_VERTICAL);
 	}
 	public GoalView(Context context, AttributeSet attrs) {
@@ -40,11 +47,8 @@ public class GoalView extends RelativeLayout {
 		ButterKnife.inject(this);
 	}
 
-	public void bindTo(Goal goal) {
-		this.goal = goal;
-	}
-
 	public void render() {
+		// I feel like GoalView should be getting the goal from GoalVM
 		if (goal != null) {
 			tvTitle.setText(goal.getTitle());
 
@@ -57,29 +61,31 @@ public class GoalView extends RelativeLayout {
 	public static String millisToDateString(long millis) {
 		if (millis < 0) return "You failed.";
 
-		long remainder = millis;
-		String result = "";
+		return CountdownTimer.millisToDaysAndHrsString.f(millis).run()._1();
 
-		int yrs = (int) (remainder / MainActivity.millisInYear);
-		if ( yrs > 0) {
-			remainder = remainder - yrs * MainActivity.millisInYear;
-			result = result + yrs + pluralize("yr", yrs) + "  ";
-		}
-
-		int mos = (int) (remainder / MainActivity.millisInMonth);
-		if (mos > 0) {
-			remainder = remainder - mos * MainActivity.millisInMonth;
-			result = result + mos + pluralize("mo", mos) + "  ";
-		}
-
-		int days = (int) (remainder / MainActivity.millisInDay);
-		if (days > 0) {
-			//remainder = remainder - days * MainActivity.millisInDay;
-			result = result + days + pluralize("d", days);
-		}
-
-
-		return result;
+//		long remainder = millis;
+//		String result = "";
+//
+//		int yrs = (int) (remainder / MainActivity.millisInYear);
+//		if ( yrs > 0) {
+//			remainder = remainder - yrs * MainActivity.millisInYear;
+//			result = result + yrs + pluralize("yr", yrs) + "  ";
+//		}
+//
+//		int mos = (int) (remainder / MainActivity.millisInMonth);
+//		if (mos > 0) {
+//			remainder = remainder - mos * MainActivity.millisInMonth;
+//			result = result + mos + pluralize("mo", mos) + "  ";
+//		}
+//
+//		int days = (int) (remainder / MainActivity.millisInDay);
+//		if (days > 0) {
+//			//remainder = remainder - days * MainActivity.millisInDay;
+//			result = result + days + pluralize("d", days);
+//		}
+//
+//
+//		return result;
 	}
 /*
 	public static int millisToPriority(long millisToEnd, long millisInLv) {
@@ -103,6 +109,11 @@ public class GoalView extends RelativeLayout {
 			cvLevel.setVisibility(View.INVISIBLE);
 	}
 
+	/**
+	 * <Divider
+	 * 		android:visibility={dividerVisibile ? visible : gone}/>
+	 * @param enable
+	 */
 	public void enableDivider(boolean enable) {
 		if(enable)
 			divider.setVisibility(View.VISIBLE);
