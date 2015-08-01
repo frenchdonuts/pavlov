@@ -10,7 +10,7 @@ Pavlov is an app to help with your motivation. Set the due date and the initial 
 * Make procrastination more stressful and task completion more satisfying
 
 ##Inspiration
-* https://www.youtube.com/watch?v=kuZ5eR2JcSo&index=55&list=PLCNeCjq7-t2xpo1Eh1X37-Li-7IU0af8w
+* https://www.youtube.com/watch?v=kuZ5eR2JcSo
 * https://reactiveui.readthedocs.org/en/latest/
 * https://github.com/tehmou/rx-android-architecture
 * http://reactivex.io/documentation/operators.html
