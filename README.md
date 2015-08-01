@@ -7,6 +7,7 @@ Pavlov is an app to help with your motivation. Set the due date and the initial 
 * Write tests
 * Dismiss keyboard upon clicking the add button
 * Refactor some views to use the new Google design support library
+* Make procrastination more stressful and task completion more satisfying
 
 ##Inspiration
 * https://www.youtube.com/watch?v=kuZ5eR2JcSo&index=55&list=PLCNeCjq7-t2xpo1Eh1X37-Li-7IU0af8w
