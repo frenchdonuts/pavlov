@@ -1,6 +1,5 @@
 package tasty.frenchdonuts.pavlov.data;
 
-import android.content.Context;
 
 import javax.inject.Inject;
 
@@ -36,8 +35,4 @@ public class RealmServiceImpl implements RealmService {
                 });
     }
 
-//    @Override
-//    public Observable<Goal> addGoal() {
-//        return null;
-//    }
 }

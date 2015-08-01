@@ -37,11 +37,6 @@ public class PavlovApp extends Application {
         instance = this;
         mGraph = Graph.Initializer.init(new AndroidModule(this));
 
-//        Realm.deleteRealmFile(this);
-//        Realm.getInstance(this).beginTransaction();
-//        Realm.getInstance(this).clear(Goal.class);
-//        Realm.getInstance(this).commitTransaction();
-
     }
 
     public static PavlovApp getInstance() {

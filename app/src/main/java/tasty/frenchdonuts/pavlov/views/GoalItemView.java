@@ -2,9 +2,7 @@ package tasty.frenchdonuts.pavlov.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -13,10 +11,9 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.Observable;
-import rx.subjects.PublishSubject;
 import rx.subjects.ReplaySubject;
-import tasty.frenchdonuts.pavlov.states.GoalItemViewState;
 import tasty.frenchdonuts.pavlov.R;
+import tasty.frenchdonuts.pavlov.states.GoalItemViewState;
 
 import static rx.Observable.combineLatest;
 

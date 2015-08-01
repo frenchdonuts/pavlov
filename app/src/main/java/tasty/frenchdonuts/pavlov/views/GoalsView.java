@@ -3,10 +3,7 @@ package tasty.frenchdonuts.pavlov.views;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -22,9 +19,8 @@ import rx.android.view.OnClickEvent;
 import rx.android.view.ViewObservable;
 import rx.subjects.PublishSubject;
 import tasty.frenchdonuts.pavlov.R;
-import tasty.frenchdonuts.pavlov.states.GoalItemViewState;
-import tasty.frenchdonuts.pavlov.utils.Conv;
 import tasty.frenchdonuts.pavlov.rx.RxBinderUtil;
+import tasty.frenchdonuts.pavlov.states.GoalItemViewState;
 import tasty.frenchdonuts.pavlov.utils.SwipeDismissListViewTouchListener;
 import tasty.frenchdonuts.pavlov.viewmodels.GoalsViewModel;
 
@@ -69,13 +65,6 @@ public class GoalsView extends FrameLayout {
         inflate(context, R.layout.goals_view, this);
     }
 
-    public View createHeader() {
-        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, Conv.scale(36));
-        View tv = new View(this.getContext());
-        tv.setLayoutParams(lp);
-        return tv;
-    }
-
     @Override
     public void onFinishInflate() {
         super.onFinishInflate();
@@ -85,7 +74,6 @@ public class GoalsView extends FrameLayout {
         lv.setDivider(null);
         lv.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
         lv.setVerticalScrollBarEnabled(false);
-//        lv.addHeaderView(createHeader());
 
         listAdapter = new GoalItemAdapter(this.getContext());
         lv.setAdapter(listAdapter);
@@ -117,6 +105,7 @@ public class GoalsView extends FrameLayout {
             return handled;
         });
 
+        // TODO: Make sure etLv input stays between 1 and 7
         etLv.setOnEditorActionListener((view, actionId, event) -> {
             boolean handled = false;
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
@@ -124,7 +113,6 @@ public class GoalsView extends FrameLayout {
             }
             return handled;
         });
-        // Make sure etLv input stays between 1 and 7
 
         etDueInDays.setOnEditorActionListener((view, actionId, event) -> {
             boolean handled = false;
@@ -152,7 +140,7 @@ public class GoalsView extends FrameLayout {
                 viewModel.goalItemViewStates, this::render);
 
             // TODO: Clear all EditTexts upon AddGoal
-            // findViewById(R.id.mainLayout).requestFocus();
+            // root.requestFocus(); ?
             addGoalClickObservable
                 .map((x) -> p(etTitle.getText().toString(),
                     etDueInDays.getText().toString(),
@@ -161,8 +149,7 @@ public class GoalsView extends FrameLayout {
                     etLv.getText().toString()))
                 .subscribe(viewModel.linkAddGoalAction);
 
-            // Observable (Observable ViewState)
-            // We want it to become Observable ViewState
+            // Observable ViewState
             switchOnNext(onDismissSubject.asObservable())
                 .map((viewState) -> viewState.primaryKey_startDate())
                 .subscribe(viewModel.linkRemoveGoalAction);

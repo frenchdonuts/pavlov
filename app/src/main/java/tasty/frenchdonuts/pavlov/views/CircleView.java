@@ -90,7 +90,6 @@ public class CircleView extends View {
                 this.color = Color.WHITE;
                 break;
         }
-        //this.color = Color.parseColor("#1F000000");
         invalidate();
     }
 }

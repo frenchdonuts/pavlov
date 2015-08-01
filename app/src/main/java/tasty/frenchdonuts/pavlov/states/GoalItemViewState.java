@@ -19,12 +19,4 @@ public abstract class GoalItemViewState {
         return new AutoParcel_GoalItemViewState(title, priority, primaryKey_startDate, dueIn);
     }
 
-    // What are the state Transitions?
-    // Change bound Goal object (which will also change dueIn)
-
-    // Disable circleView
-
-    // Disable divider
-
-
 }
