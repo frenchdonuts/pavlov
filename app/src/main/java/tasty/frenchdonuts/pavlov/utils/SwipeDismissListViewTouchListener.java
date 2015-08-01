@@ -1,4 +1,4 @@
-package tasty.frenchdonuts.motivate;
+package tasty.frenchdonuts.pavlov.utils;
 /*
  * Copyright 2013 Google Inc.
  *

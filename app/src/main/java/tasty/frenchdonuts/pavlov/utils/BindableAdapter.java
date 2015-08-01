@@ -1,4 +1,4 @@
-package tasty.frenchdonuts.motivate;
+package tasty.frenchdonuts.pavlov.utils;
 
 import android.content.Context;
 import android.view.LayoutInflater;

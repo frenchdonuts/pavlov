@@ -1,4 +1,4 @@
-package tasty.frenchdonuts.motivate;
+package tasty.frenchdonuts.pavlov.utils;
 
 /**
  * Created by frenchdonuts on 1/8/15.

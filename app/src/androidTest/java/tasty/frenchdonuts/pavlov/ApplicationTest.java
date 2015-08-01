@@ -1,4 +1,4 @@
-package tasty.frenchdonuts.motivate;
+package tasty.frenchdonuts.pavlov;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

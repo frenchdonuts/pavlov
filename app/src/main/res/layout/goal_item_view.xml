@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<tasty.frenchdonuts.motivate.GoalView xmlns:android="http://schemas.android.com/apk/res/android"
+<tasty.frenchdonuts.pavlov.views.GoalItemView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="72dp">
 
-    <tasty.frenchdonuts.motivate.CircleView
+    <tasty.frenchdonuts.pavlov.views.CircleView
         android:id="@+id/task_cvLevel"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -60,4 +60,4 @@
             android:background="@drawable/actionbar_shadow"
             />
     </LinearLayout>
-</tasty.frenchdonuts.motivate.GoalView>
+</tasty.frenchdonuts.pavlov.views.GoalItemView>
