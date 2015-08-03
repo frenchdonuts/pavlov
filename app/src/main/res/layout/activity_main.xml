@@ -7,9 +7,4 @@
                 android:background="@color/fallback"
                 android:focusableInTouchMode="true"
                 android:descendantFocusability="beforeDescendants">
-    <fragment android:name="tasty.frenchdonuts.pavlov.fragments.GoalsFragment"
-              android:id="@+id/tasks"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              tools:layout="@layout/abc_screen_simple"/>
 </FrameLayout>

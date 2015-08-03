@@ -20,7 +20,7 @@ public interface Graph {
     void inject(DataLayer dataLayer);
     void inject(GoalsViewModel goalsViewModel);
 
-    public final static class Initializer {
+    final class Initializer {
         public static Graph init(AndroidModule androidModule) {
             return DaggerGraph.builder()
                 .androidModule(androidModule)
