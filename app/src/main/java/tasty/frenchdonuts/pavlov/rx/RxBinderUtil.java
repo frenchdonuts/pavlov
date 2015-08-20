@@ -7,6 +7,7 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.subjects.Subject;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -30,7 +31,13 @@ public class RxBinderUtil {
     public <U> void bindProperty(final Observable<U> observable,
                                  final Action1<U> setter) {
         compositeSubscription.add(
-                subscribeSetter(observable, setter, tag));
+            subscribeSetter(observable, setter, tag));
+    }
+
+    // Quick and dirty method to allow Subjects to use this utility class
+    public <U,E> void bindProperty(final Observable<U> observable,
+                                 final Subject<U,E> subject) {
+        compositeSubscription.add(observable.subscribe(subject));
     }
 
     static private <U> Subscription subscribeSetter(final Observable<U> observable,

@@ -53,8 +53,6 @@ public class GoalsView extends FrameLayout {
     // TODO: Make this a proper Observable that emits onDismissEvents
     private PublishSubject<Observable<GoalItemViewState>> onDismissSubject = PublishSubject.create();
 
-    private GoalsViewModel viewModel;
-
 
     public GoalsView(Context context) {
         super(context, null);
@@ -131,8 +129,9 @@ public class GoalsView extends FrameLayout {
         });
     }
 
+    // setViewModel is being called
     public void setViewModel(GoalsViewModel viewModel) {
-        this.viewModel = viewModel;
+        // Make sure we don't subscribe linkAddGoalAction and linkRemoveGoalAction twice
         rxBinderUtil.clear();
 
         if (viewModel != null) {
@@ -141,18 +140,20 @@ public class GoalsView extends FrameLayout {
 
             // TODO: Clear all EditTexts upon AddGoal
             // root.requestFocus(); ?
-            addGoalClickObservable
-                .map((x) -> p(etTitle.getText().toString(),
-                    etDueInDays.getText().toString(),
-                    etDueInMonths.getText().toString(),
-                    etDueInYears.getText().toString(),
-                    etLv.getText().toString()))
-                .subscribe(viewModel.linkAddGoalAction);
+            rxBinderUtil.bindProperty(
+                addGoalClickObservable
+                    .map((x) -> p(etTitle.getText().toString(),
+                        etDueInDays.getText().toString(),
+                        etDueInMonths.getText().toString(),
+                        etDueInYears.getText().toString(),
+                        etLv.getText().toString())),
+                viewModel.linkAddGoalAction);
 
             // Observable ViewState
-            switchOnNext(onDismissSubject.asObservable())
-                .map((viewState) -> viewState.primaryKey_startDate())
-                .subscribe(viewModel.linkRemoveGoalAction);
+            rxBinderUtil.bindProperty(
+                switchOnNext(onDismissSubject.asObservable())
+                    .map((viewState) -> viewState.primaryKey_startDate()),
+                viewModel.linkRemoveGoalAction);
         }
     }
 

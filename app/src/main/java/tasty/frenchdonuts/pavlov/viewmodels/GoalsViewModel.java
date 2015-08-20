@@ -47,6 +47,7 @@ public class GoalsViewModel {
 
         linkAddGoalAction = PublishSubject.create();
         addGoalAction = linkAddGoalAction.asObservable()
+            .doOnNext((p) -> Log.i(TAG, "addGoalAction ViewState: " + p.toString()))
             .subscribeOn(Schedulers.io())
             .flatMap(dataLayer::addGoalToRealm);
 
