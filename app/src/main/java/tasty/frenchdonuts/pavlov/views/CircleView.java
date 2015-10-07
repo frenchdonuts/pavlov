@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.View;
 
 /**
- * TODO: Move this inside GoalItemView
+ * TODO: Implement this in XML
  * Created by frenchdonuts on 1/7/15.
  */
 public class CircleView extends View {

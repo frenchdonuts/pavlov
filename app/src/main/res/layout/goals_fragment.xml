@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<tasty.frenchdonuts.pavlov.views.GoalsView
+<FrameLayout
     android:id="@+id/goals_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/fallback"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context=".MainActivity"/>
+    tools:context=".MainActivity">
+        <android.support.v7.widget.RecyclerView
+          android:id="@+id/rvGoals"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          tools:layout="@layout/abc_screen_simple"/>
+</FrameLayout>

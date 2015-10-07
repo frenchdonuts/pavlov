@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:custom="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/fallback"
+            android:paddingLeft="72dp"
+            android:paddingRight="16dp">
+
+            <LinearLayout
+                android:id="@+id/llCenter"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"/>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/etLv"
+                android:layout_width="24dp"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/llCenter"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="24dp"
+                android:layout_marginEnd="56dp"
+                android:layout_marginRight="56dp"
+                android:gravity="center"
+                android:hint="Lv"
+                android:inputType="number"
+                android:maxLength="1"
+                custom:floatingLabel="normal"
+                custom:primaryColor="#DE000000"/>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/etTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/etLv"
+                android:layout_marginBottom="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="16dp"
+                android:layout_toLeftOf="@id/etLv"
+                android:hint="Title"
+                custom:floatingLabel="normal"
+                custom:primaryColor="#DE000000"
+                custom:singleLineEllipsis="true"/>
+
+            <TextView
+                android:id="@+id/tvDueIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/llCenter"
+                android:text="Due in: "/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvDueIn"
+                android:layout_marginEnd="56dp"
+                android:layout_marginRight="56dp">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/etDueInDays"
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="1"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    custom:primaryColor="#DE000000"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="24dp"
+                    android:text="d(s)"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/etDueInMonths"
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="0"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    custom:primaryColor="#DE000000"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="24dp"
+                    android:text="mo(s)"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/etDueInYears"
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="0"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    custom:primaryColor="#DE000000"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="yr(s)"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/actionbar_shadow"/>
+    </LinearLayout>
+
+    <com.getbase.floatingactionbutton.AddFloatingActionButton
+        android:id="@+id/btnAddGoal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="166dp"
+        custom:fab_colorNormal="@color/fallback"
+        custom:fab_colorPressed="@color/black_text"
+        custom:fab_plusIconColor="@color/grey"/>
+</merge>

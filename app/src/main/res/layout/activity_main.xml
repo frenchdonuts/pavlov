@@ -7,4 +7,13 @@
                 android:background="@color/fallback"
                 android:focusableInTouchMode="true"
                 android:descendantFocusability="beforeDescendants">
+    <FrameLayout
+        android:id="@+id/goals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/material_cyan_500"
+        android:layout_marginTop="200dp"/>
+    <tasty.frenchdonuts.pavlov.views.AddGoalFormView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </FrameLayout>

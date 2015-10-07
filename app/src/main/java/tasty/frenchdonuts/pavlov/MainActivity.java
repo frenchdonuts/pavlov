@@ -3,7 +3,6 @@ package tasty.frenchdonuts.pavlov;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-import io.realm.Realm;
 import tasty.frenchdonuts.pavlov.fragments.GoalsFragment;
 import tasty.frenchdonuts.pavlov.utils.Conv;
 
@@ -18,7 +17,7 @@ public class MainActivity extends FragmentActivity {
 
         setContentView(R.layout.activity_main);
         getSupportFragmentManager().beginTransaction()
-            .add(R.id.mainLayout, GoalsFragment.newInstance())
+            .add(R.id.goals, GoalsFragment.newInstance())
             .commit();
     }
 
@@ -30,7 +29,6 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Realm.getInstance(this).close();
     }
 
 }

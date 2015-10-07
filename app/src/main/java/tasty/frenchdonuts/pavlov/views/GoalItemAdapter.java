@@ -1,65 +1,151 @@
 package tasty.frenchdonuts.pavlov.views;
 
 import android.content.Context;
-import android.util.Log;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.view.MotionEventCompat;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import rx.Observable;
+import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import tasty.frenchdonuts.pavlov.Action;
+import tasty.frenchdonuts.pavlov.Dispatcher;
+import tasty.frenchdonuts.pavlov.PavlovApp;
 import tasty.frenchdonuts.pavlov.R;
-import tasty.frenchdonuts.pavlov.states.GoalItemViewState;
+import tasty.frenchdonuts.pavlov.db.entities.Goal;
+import tasty.frenchdonuts.pavlov.utils.Time;
+import tasty.frenchdonuts.pavlov.views.helper.OnStartDragListener;
+import tasty.frenchdonuts.pavlov.views.helper.SwipeItemTouchHelperAdapter;
 
 /**
- * Created by frenchdonuts on 7/27/15.
+ *
  */
-public class GoalItemAdapter extends BaseAdapter {
+public class GoalItemAdapter extends RecyclerView.Adapter<GoalItemAdapter.ViewHolder>
+        implements SwipeItemTouchHelperAdapter {
     private static final String TAG = GoalItemAdapter.class.getSimpleName();
 
-    private Context context;
-    private List<Observable<GoalItemViewState>> viewStates;
+    @Inject
+    Dispatcher dispatcher;
 
-    public GoalItemAdapter(Context context) {
-        this.context = context;
-        this.viewStates = new ArrayList<>();
+    private List<Goal> goals;
+    private Map<Long, State> localState = new HashMap<>();
+
+    private OnStartDragListener startDragListener;
+
+    public GoalItemAdapter(Context context, OnStartDragListener startDragListener) {
+        PavlovApp.get(context).appComponent().inject(this);
+        this.startDragListener = startDragListener;
     }
 
-    @Override
-    public int getCount() {
-        return viewStates.size();
-    }
+    public void setGoals(@Nullable List<Goal> goals) {
+        if (goals == null) return;
 
-    @Override
-    public Observable<GoalItemViewState> getItem(int position) {
-        return viewStates.get(position);
-    }
+        this.goals = goals;
+        // Calculate some local state
+        for (int i = 0; i < goals.size(); i++) {
+            Goal g = goals.get(i);
 
-    @Override
-    public long getItemId(int position) {
-        return 0;//getItem(position).primaryKey();
-    }
+            int cur = g.priority();
+            // The very first view is also first in its section
+            int bef = i == 0 ? (cur + 1) : goals.get(i - 1).priority();
+            // The very last view should not have a divider
+            int aft = i == (goals.size() - 1) ? cur : goals.get(i + 1).priority();
 
-    public void updateData(List<Observable<GoalItemViewState>> viewStates) {
-        this.viewStates = viewStates;
+            // If current view is first in its section (cur < bef), enable circle view
+            int cvVisibility = (cur < bef) ? View.VISIBLE : View.INVISIBLE;
+            // If current view is last in its section (cur > aft), enable divider
+            int dividerVisibility = (cur > aft) ? View.VISIBLE : View.GONE;
+
+            String dueIn = Time.millisToDaysAndHrsString
+                               .f(g.endDate() - System.currentTimeMillis()).run()._1();
+
+            localState.put(g.id(), new State(dueIn, cvVisibility, dividerVisibility));
+        }
+
         notifyDataSetChanged();
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        GoalItemView v;
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).
+            inflate(R.layout.goal_item_view, parent, false));
+    }
 
-        if (convertView == null)
-            v = (GoalItemView) LayoutInflater.from(context).inflate(R.layout.goal_item_view, parent, false);
-        else
-            v = (GoalItemView) convertView;
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        final Goal goal = goals.get(position);
+        final State state = localState.get(goal.id());
 
-        v.setStateObservable(getItem(position));
+        holder.tvName.setText(goal.name());
+        holder.tvDueIn.setText(state.dueIn);
+        holder.cv.setPriority(goal.priority());
+        holder.cv.setVisibility(state.cvVisibility);
+        holder.llDivider.setVisibility(state.dividerVisibility);
 
-        return v;
+        holder.itemView.setOnTouchListener((view, event) -> {
+            if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                startDragListener.onStartDrag(holder);
+            }
+            return false;
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return goals == null ? 0 : goals.size();
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        dispatcher.dispatch(new Action.RemoveGoalAction(goals.get(position).id()));
+        notifyItemRemoved(position);
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+
+        @Bind(R.id.cvPriority)
+        CircleView cv;
+
+        @Bind(R.id.tvName)
+        TextView tvName;
+
+        @Bind(R.id.tvDueIn)
+        TextView tvDueIn;
+
+        @Bind(R.id.divider)
+        LinearLayout llDivider;
+
+        View itemView;
+
+        ViewHolder(View goalItemView) {
+            super(goalItemView);
+            ButterKnife.bind(this, goalItemView);
+            this.itemView = goalItemView;
+        }
+    }
+
+    private class State {
+        public String dueIn = "";
+        public int cvVisibility = View.VISIBLE;
+        public int dividerVisibility = View.VISIBLE;
+
+        public State(String dueIn, int cvVisibility, int dividerVisibility) {
+            this.dueIn = dueIn;
+            this.cvVisibility = cvVisibility;
+            this.dividerVisibility = dividerVisibility;
+        }
     }
 
 }

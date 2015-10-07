@@ -4,7 +4,7 @@
     android:layout_height="72dp">
 
     <tasty.frenchdonuts.pavlov.views.CircleView
-        android:id="@+id/task_cvLevel"
+        android:id="@+id/cvPriority"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
@@ -20,10 +20,10 @@
         android:layout_centerVertical="true"
         />
     <TextView
-        android:id="@+id/task_tvTitle"
+        android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/task_cvLevel"
+        android:layout_toRightOf="@id/cvPriority"
         android:layout_marginLeft="32dp"
         android:layout_marginStart="32dp"
         android:layout_above="@id/llCenter"
@@ -33,10 +33,10 @@
         />
     <!-- fontPath="fonts/Roboto-Black.ttf" -->
     <TextView
-        android:id="@+id/task_tvDueIn"
+        android:id="@+id/tvDueIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/task_cvLevel"
+        android:layout_toRightOf="@id/cvPriority"
         android:layout_marginLeft="32dp"
         android:layout_marginStart="32dp"
         android:layout_below="@id/llCenter"

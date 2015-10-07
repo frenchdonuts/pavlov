@@ -2,29 +2,24 @@ package tasty.frenchdonuts.pavlov;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import javax.inject.Singleton;
-
-import dagger.Component;
-import dagger.Module;
-import dagger.Provides;
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import tasty.frenchdonuts.pavlov.data.Goal;
+import tasty.frenchdonuts.pavlov.db.DbModule;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * Created by frenchdonuts on 1/8/15.
  */
 public class PavlovApp extends Application {
-    @Singleton
-    @Component(modules={AndroidModule.class})
-    public interface ApplicationComponent {
-        void inject(PavlovApp app);
-    }
-    private static PavlovApp instance;
 
-    private Graph mGraph;
+    @Nullable
+    private volatile AppComponent appComponent;
+
+    @NonNull
+    public static PavlovApp get(@NonNull Context context) {
+        return (PavlovApp) context.getApplicationContext();
+    }
 
     @Override
     public void onCreate() {
@@ -34,17 +29,27 @@ public class PavlovApp extends Application {
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
-        instance = this;
-        mGraph = Graph.Initializer.init(new AndroidModule(this));
-
     }
 
-    public static PavlovApp getInstance() {
-        return instance;
+    @NonNull
+    public AppComponent appComponent() {
+        if (appComponent == null) {
+            synchronized (PavlovApp.class) {
+                if (appComponent == null) {
+                    appComponent = createAppComponent();
+                }
+            }
+        }
+
+        return appComponent;
     }
 
-    public Graph getGraph() {
-        return mGraph;
+    @NonNull
+    private AppComponent createAppComponent() {
+        return DaggerAppComponent
+                .builder()
+                .appModule(new AppModule(this))
+                .dbModule(new DbModule())
+                .build();
     }
-
 }

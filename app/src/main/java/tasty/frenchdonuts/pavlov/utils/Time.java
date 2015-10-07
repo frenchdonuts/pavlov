@@ -48,22 +48,12 @@ public class Time {
     public static F<Long, Writer<String, Long>> millisToDaysAndHrsString = (millis) ->
         unit(millis).flatMap(millisToDaysString).flatMap(millisToHrsString);
 
-    public static long endDate(String ds, String mos, String yrs) {
-        int days = 1;
-        if (!ds.isEmpty())
-            days = Integer.parseInt(ds);
-        int months = 0;
-        if (!mos.isEmpty()) months = Integer.parseInt(mos);
-        int years = 0;
-        if (!yrs.isEmpty()) years = Integer.parseInt(yrs);
-
-
-        // Add one more day to account for integer truncation upon GoalView.millisToDateString
+    public static long endDate(long now, int days, int months, int years) {
         long daysInMillis = days * millisInDay;
         long monthsInMillis = months * millisInMonth;
         long yrsInMillis = years * millisInYear;
 
-        return daysInMillis + monthsInMillis + yrsInMillis + System.currentTimeMillis();
+        return daysInMillis + monthsInMillis + yrsInMillis + now;
     }
 }
 
