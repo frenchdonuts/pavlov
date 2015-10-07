@@ -4,12 +4,12 @@ Pavlov is an app to help with your motivation. Set the due date and the initial 
 
 ##Inspiration
 
-#Reframe/Flux/Elm
+###Reframe/Flux/Elm
 * https://github.com/Day8/re-frame
 * https://facebook.github.io/flux/docs/overview.html#content
 * https://github.com/evancz/elm-architecture-tutorial/
 
-#MVVM
+###MVVM
 * https://www.youtube.com/watch?v=kuZ5eR2JcSo
 * https://reactiveui.readthedocs.org/en/latest/
 * https://github.com/tehmou/rx-android-architecture
