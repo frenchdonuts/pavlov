@@ -1,7 +1,6 @@
 package tasty.frenchdonuts.pavlov;
 
 import android.support.annotation.NonNull;
-import android.view.View;
 
 import javax.inject.Singleton;
 
@@ -19,8 +18,7 @@ import tasty.frenchdonuts.pavlov.views.GoalItemAdapter;
     modules = {
         AppModule.class,
         DbModule.class,
-        // Block off access to Handlers class (only Dispatcher should have access to Handlers)
-        HandlersModule.class
+        DispatcherModule.class
     }
 )
 public interface AppComponent {

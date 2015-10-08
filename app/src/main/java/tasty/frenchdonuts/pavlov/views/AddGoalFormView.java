@@ -41,7 +41,6 @@ public class AddGoalFormView extends FrameLayout {
     // TODO: Use official support library fab
     @OnClick(R.id.btnAddGoal)
     public void addGoal(View v) {
-        Log.i(TAG, "fab clicked");
         dispatcher.dispatch(new Action.AddGoalAction(
             etTitle.getText().toString(),
             etDueInDays.getText().toString(),

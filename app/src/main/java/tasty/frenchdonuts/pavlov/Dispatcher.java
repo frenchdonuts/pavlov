@@ -1,27 +1,36 @@
 package tasty.frenchdonuts.pavlov;
 
+import android.content.Context;
+
+import com.pushtorefresh.storio.sqlite.StorIOSQLite;
+
 import javax.inject.Inject;
 
 /**
  *
  */
 public class Dispatcher {
-    private final Handlers handlers;
+    private final StorIOSQLite storIOSQLite;
+    private final Context appContext;
 
     @Inject
-    Dispatcher(Handlers handlers) {
-        this.handlers = handlers;
+    Dispatcher(StorIOSQLite storIOSQLite, Context appContext) {
+        this.storIOSQLite = storIOSQLite;
+        this.appContext = appContext;
     }
 
     public void dispatch(Action action) {
         switch (action.actionType()) {
             case "AddGoalAction":
-                handlers.addGoalToSQLite((Action.AddGoalAction) action);
+                Handlers.addGoalToSQLite((Action.AddGoalAction) action, this, storIOSQLite);
                 break;
 
             case "RemoveGoalAction":
-                handlers.removeGoalFromSQLite((Action.RemoveGoalAction) action);
+                Handlers.removeGoalFromSQLite((Action.RemoveGoalAction) action, storIOSQLite);
                 break;
+
+            case "ToastUserAction":
+                Handlers.toastUser((Action.ToastUserAction) action, appContext);
 
             default:
                 break;

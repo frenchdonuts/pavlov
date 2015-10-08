@@ -1,11 +1,10 @@
 package tasty.frenchdonuts.pavlov;
 
-import android.util.Log;
+import android.content.Context;
+import android.widget.Toast;
 
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio.sqlite.queries.DeleteQuery;
-
-import javax.inject.Inject;
 
 import tasty.frenchdonuts.pavlov.db.entities.Goal;
 import tasty.frenchdonuts.pavlov.db.tables.GoalsTable;
@@ -17,14 +16,13 @@ import tasty.frenchdonuts.pavlov.utils.Time;
 public class Handlers {
     private static final String TAG = Handlers.class.getSimpleName();
 
-    StorIOSQLite storIOSQLite;
+    public static void addGoalToSQLite(Action.AddGoalAction a, Dispatcher dispatcher, StorIOSQLite storIOSQLite) {
+        if (a.priority > 7 || 0 > a.priority) {
+            dispatcher.dispatch(new Action.
+                ToastUserAction("Priority must be less than 7.", Toast.LENGTH_SHORT));
+            return;
+        }
 
-    @Inject
-    Handlers(StorIOSQLite storIOSQLite) {
-        this.storIOSQLite = storIOSQLite;
-    }
-
-    public void addGoalToSQLite(Action.AddGoalAction a) {
         long startDate = System.currentTimeMillis();
         long endDate = Time.endDate(startDate, a.daysDueIn, a.monthsDueIn, a.yearsDueIn);
         long millisInOneLv = (endDate - startDate) / (8 - a.priority);
@@ -37,7 +35,7 @@ public class Handlers {
             .executeAsBlocking();
     }
 
-    public void removeGoalFromSQLite(Action.RemoveGoalAction a) {
+    public static void removeGoalFromSQLite(Action.RemoveGoalAction a, StorIOSQLite storIOSQLite) {
         storIOSQLite.delete()
             .byQuery(DeleteQuery.builder()
                 .table(GoalsTable.TABLE)
@@ -46,5 +44,9 @@ public class Handlers {
                 .build())
             .prepare()
             .executeAsBlocking();
+    }
+
+    public static void toastUser(Action.ToastUserAction a, Context appContext) {
+        Toast.makeText(appContext, a.msg, a.duration).show();
     }
 }

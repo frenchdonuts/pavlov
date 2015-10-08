@@ -55,4 +55,16 @@ public abstract class Action {
             this.id = id;
         }
     }
+
+    public static class ToastUserAction extends Action {
+        public String actionType() { return "ToastUserAction"; }
+
+        public final String msg;
+        public final int duration;
+
+        public ToastUserAction(String msg, int duration) {
+            this.msg = msg;
+            this.duration = duration;
+        }
+    }
 }

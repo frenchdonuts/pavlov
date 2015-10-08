@@ -3,7 +3,7 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
     compileOptions {
@@ -36,21 +36,33 @@ dependencies {
     compile 'com.android.support:support-v4:23.0.1'
     compile 'com.android.support:recyclerview-v7:23.0.1'
 
-    // Dependency injection
+
+    // DI
     apt 'com.google.dagger:dagger-compiler:2.0.1'
     compile 'com.google.dagger:dagger:2.0.1'
 
 
     compile 'org.functionaljava:functionaljava:4.4'
 
+
+    // storIO - Reactive SQLite access
     compile 'com.pushtorefresh.storio:sqlite:1.4.0'
     compile 'com.pushtorefresh.storio:sqlite-annotations:1.4.0'
     apt 'com.pushtorefresh.storio:sqlite-annotations-processor:1.4.0'
 
+
+    // rxJava
     compile 'io.reactivex:rxjava:1.0.4'
     compile 'io.reactivex:rxjava-async-util:0.21.0'
     compile 'io.reactivex:rxandroid:0.25.0'
 
+
+    // Unit testing dependencies
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.hamcrest:hamcrest-library:1.1'
+
+
+    // Misc.
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'uk.co.chrisjenx:calligraphy:2.0.0'
     compile 'com.getbase:floatingactionbutton:1.5.1'
