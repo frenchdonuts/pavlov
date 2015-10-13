@@ -5,4 +5,5 @@
 .DS_Store
 /build
 /app/*.log
+/app/*.apk
 icon.zip

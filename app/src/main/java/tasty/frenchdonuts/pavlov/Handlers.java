@@ -17,9 +17,14 @@ public class Handlers {
     private static final String TAG = Handlers.class.getSimpleName();
 
     public static void addGoalToSQLite(Action.AddGoalAction a, Dispatcher dispatcher, StorIOSQLite storIOSQLite) {
+        if (a.name.isEmpty()) {
+            dispatcher.dispatch(
+                new Action.ToastUserAction("Goal must have a title!", Toast.LENGTH_SHORT));
+            return;
+        }
         if (a.priority > 7 || 0 > a.priority) {
-            dispatcher.dispatch(new Action.
-                ToastUserAction("Priority must be less than 7.", Toast.LENGTH_SHORT));
+            dispatcher.dispatch(
+                new Action.ToastUserAction("Priority must be less than 7.", Toast.LENGTH_SHORT));
             return;
         }
 

@@ -53,15 +53,23 @@ public class GoalItemAdapter extends RecyclerView.Adapter<GoalItemAdapter.ViewHo
         if (goals == null) return;
 
         this.goals = goals;
-        // Calculate some local state
+        /** Calculate some local state **/
+        long now = System.currentTimeMillis();
+        // Calculate priorities
         for (int i = 0; i < goals.size(); i++) {
             Goal g = goals.get(i);
+            State s = new State();
 
-            int cur = g.priority();
+            s.priority = calcNewPriority(g, now);
+            localState.put(g.id(), s);
+        }
+        // Calculate other local state variables based on priorities
+        for (int i = 0; i < goals.size(); i++) {
+            int cur = localState.get(goals.get(i).id()).priority;
             // The very first view is also first in its section
-            int bef = i == 0 ? (cur + 1) : goals.get(i - 1).priority();
+            int bef = i == 0 ? (cur + 1) : localState.get(goals.get(i - 1).id()).priority;
             // The very last view should not have a divider
-            int aft = i == (goals.size() - 1) ? cur : goals.get(i + 1).priority();
+            int aft = i == (goals.size() - 1) ? cur : localState.get(goals.get(i + 1).id()).priority;
 
             // If current view is first in its section (cur < bef), enable circle view
             int cvVisibility = (cur < bef) ? View.VISIBLE : View.INVISIBLE;
@@ -69,12 +77,24 @@ public class GoalItemAdapter extends RecyclerView.Adapter<GoalItemAdapter.ViewHo
             int dividerVisibility = (cur > aft) ? View.VISIBLE : View.GONE;
 
             String dueIn = Time.millisToDaysAndHrsString
-                               .f(g.endDate() - System.currentTimeMillis()).run()._1();
+                               .f(goals.get(i).endDate() - now).run()._1();
 
-            localState.put(g.id(), new State(dueIn, cvVisibility, dividerVisibility));
+            State s = localState.get(goals.get(i).id());
+            s.dueIn = dueIn;
+            s.cvVisibility = cvVisibility;
+            s.dividerVisibility = dividerVisibility;
         }
 
         notifyDataSetChanged();
+    }
+    private static int calcNewPriority(Goal goal, long now) {
+        long millisToEnd = goal.endDate() - now;
+
+        if (millisToEnd < 0) return 8;
+
+        int decs = (int) (millisToEnd / goal.millisInOneLv());
+
+        return 8 - decs - 1;
     }
 
     @Override
@@ -90,7 +110,7 @@ public class GoalItemAdapter extends RecyclerView.Adapter<GoalItemAdapter.ViewHo
 
         holder.tvName.setText(goal.name());
         holder.tvDueIn.setText(state.dueIn);
-        holder.cv.setPriority(goal.priority());
+        holder.cv.setPriority(state.priority);
         holder.cv.setVisibility(state.cvVisibility);
         holder.llDivider.setVisibility(state.dividerVisibility);
 
@@ -137,15 +157,10 @@ public class GoalItemAdapter extends RecyclerView.Adapter<GoalItemAdapter.ViewHo
     }
 
     private class State {
+        public int priority = 1;
         public String dueIn = "";
         public int cvVisibility = View.VISIBLE;
         public int dividerVisibility = View.VISIBLE;
-
-        public State(String dueIn, int cvVisibility, int dividerVisibility) {
-            this.dueIn = dueIn;
-            this.cvVisibility = cvVisibility;
-            this.dividerVisibility = dividerVisibility;
-        }
     }
 
 }

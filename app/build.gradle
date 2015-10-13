@@ -24,8 +24,8 @@ android {
     }
     buildTypes {
         release {
-            debuggable true
-            minifyEnabled false
+            debuggable false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -52,9 +52,10 @@ dependencies {
 
 
     // rxJava
-    compile 'io.reactivex:rxjava:1.0.4'
+    compile 'io.reactivex:rxjava:1.0.14'
     compile 'io.reactivex:rxjava-async-util:0.21.0'
     compile 'io.reactivex:rxandroid:0.25.0'
+    compile 'com.artemzin.rxjava:proguard-rules:1.0.14.2'
 
 
     // Unit testing dependencies

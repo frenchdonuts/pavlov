@@ -6,11 +6,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 /**
- * TODO: Implement this in XML
+ * TODO: Implement this in XML?
  * Created by frenchdonuts on 1/7/15.
  */
 public class CircleView extends View {
@@ -18,6 +17,7 @@ public class CircleView extends View {
 
     private int color = red;
     private int level = 0;
+    public static final int danger = Color.parseColor("#FFF44336");
     public static final int red = Color.parseColor("#DE000000");
     public static final int orange = Color.parseColor("#8A000000");
     public static final int yellow = Color.parseColor("#42000000");
@@ -65,6 +65,9 @@ public class CircleView extends View {
     public void setPriority(int priority) {
         this.level = priority;
         switch (priority) {
+            case 8:
+                this.color = danger;
+                break;
             case 7:
                 this.color = red;
                 break;

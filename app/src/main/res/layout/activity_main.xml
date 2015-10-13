@@ -4,15 +4,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context=".MainActivity"
-                android:background="@color/fallback"
-                android:focusableInTouchMode="true"
-                android:descendantFocusability="beforeDescendants">
+                android:background="@color/fallback">
     <FrameLayout
         android:id="@+id/goals"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/material_cyan_500"
-        android:layout_marginTop="200dp"/>
+        android:layout_marginTop="200dp"
+        android:focusableInTouchMode="true"/>
     <tasty.frenchdonuts.pavlov.views.AddGoalFormView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

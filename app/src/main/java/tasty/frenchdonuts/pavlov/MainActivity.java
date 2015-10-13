@@ -2,6 +2,7 @@ package tasty.frenchdonuts.pavlov;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.WindowManager;
 
 import tasty.frenchdonuts.pavlov.fragments.GoalsFragment;
 import tasty.frenchdonuts.pavlov.utils.Conv;
@@ -19,6 +20,8 @@ public class MainActivity extends FragmentActivity {
         getSupportFragmentManager().beginTransaction()
             .add(R.id.goals, GoalsFragment.newInstance())
             .commit();
+
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     @Override

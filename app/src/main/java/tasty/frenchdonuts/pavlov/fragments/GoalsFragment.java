@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +52,6 @@ public class GoalsFragment extends BaseFragment implements OnStartDragListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG, "onCreate");
 
         PavlovApp.get(getContext()).appComponent().inject(this);
         goalsItemAdapter = new GoalItemAdapter(getContext(), this);
@@ -61,13 +59,11 @@ public class GoalsFragment extends BaseFragment implements OnStartDragListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.i(TAG, "onCreateView");
         return inflater.inflate(R.layout.goals_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Log.i(TAG, "onViewCreate");
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
@@ -92,7 +88,6 @@ public class GoalsFragment extends BaseFragment implements OnStartDragListener {
     }
 
     void reloadData() {
-        Log.i(TAG, "reloadData");
         final String orderBy = GoalsTable.COLUMN_PRIORITY + " desc, " +
                                GoalsTable.COLUMN_END_DATE + " asc";
         Query query = Query.builder()

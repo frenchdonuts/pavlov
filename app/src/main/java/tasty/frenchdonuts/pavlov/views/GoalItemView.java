@@ -47,22 +47,4 @@ public class GoalItemView extends RelativeLayout {
         onFinishInflate.onNext(true);
     }
 
-//    public void setStateObservable(Observable<GoalItemViewState> state) {
-//        combineLatest(state, onFinishInflate, (viewState, bool) -> viewState)
-//            .subscribe(this::render);
-//    }
-//
-//    private void render(GoalItemViewState state) {
-//
-//        tvName.setText(state.title());
-//
-//        cvLevel.setPriority(state.priority());
-//
-//        tvDueIn.setText(state.dueIn());
-//
-//        cvLevel.setVisibility(state.isCircleViewEnabled ? View.VISIBLE : View.INVISIBLE);
-//
-//        divider.setVisibility(state.isDividerEnabled ? View.VISIBLE : View.GONE);
-//    }
-
 }

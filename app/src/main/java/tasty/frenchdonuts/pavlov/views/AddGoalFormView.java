@@ -2,7 +2,6 @@ package tasty.frenchdonuts.pavlov.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -48,7 +47,11 @@ public class AddGoalFormView extends FrameLayout {
             etDueInYears.getText().toString(),
             etLv.getText().toString()));
 
-        // TODO: Clear all EditTexts
+        etTitle.getText().clear();
+        etDueInDays.getText().clear();
+        etDueInMonths.getText().clear();
+        etDueInYears.getText().clear();
+        etLv.getText().clear();
     }
 
     public AddGoalFormView(Context context, AttributeSet attrs) {
